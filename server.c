@@ -4,28 +4,37 @@
 	#include <signal.h>
 	#include <stdlib.h>
 
-void sighup(){
-	printf("I recied a SIGHUP signal\n");
+int yex;
+int num[8];
+
+void siguser1()
+{
+	num[yex] = 0;
+	yex++;
 }
 
-void sigint(){
-	printf("I recied a SIGINT signal\n");
-}
-
-void sigquit(){
-	printf("I recied a SIGAUIT signal\n");
-	exit(1);
+void siguser2()
+{
+	num[yex] = 1;
+	yex++;
 }
 
 int	main()
 {
 	int pid;
+
+	yex = 0;
 	pid = getpid();
 	printf("%d\n", pid);
-	while (1){
-		signal(SIGQUIT, sigquit);
-		signal(SIGHUP, sighup);
-		signal(SIGINT, sigint);
+	signal(SIGQUIT, siguser1);
+	signal(SIGHUP, siguser2);
+	if (yex > 7)
+	{
+		for(int i = 0; i < 8; i++)
+			printf("%d |", num[i]);
+		printf("\n");
+		yex = 0;
 	}
+	pause();
 	return 0;
 }
