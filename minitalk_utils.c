@@ -6,7 +6,7 @@
 /*   By: keddib <keddib@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/23 17:16:11 by keddib            #+#    #+#             */
-/*   Updated: 2021/06/23 17:50:19 by keddib           ###   ########.fr       */
+/*   Updated: 2021/06/23 18:20:22 by keddib           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ void	ft_putchar(char c)
 
 void	ft_putnbr(int n)
 {
-	long nbr;
+	long	nbr;
 
 	nbr = n;
 	if (nbr < 0)
@@ -66,7 +66,7 @@ int	ft_atoi(const char *str)
 {
 	int	i;
 	int	p;
-	int r;
+	int	r;
 
 	i = 0;
 	p = 1;

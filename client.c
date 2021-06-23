@@ -6,7 +6,7 @@
 /*   By: keddib <keddib@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/22 19:48:12 by keddib            #+#    #+#             */
-/*   Updated: 2021/06/23 17:51:04 by keddib           ###   ########.fr       */
+/*   Updated: 2021/06/23 18:41:39 by keddib           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,10 +25,7 @@ int	*char_to_bin(char c)
 		return (NULL);
 	while (i >= 0)
 	{
-		if (c & (1 << i))
-			num[j] = 1;
-		else
-			num[j] = 0;
+		num[j] = c & (1 << i);
 		--i;
 		j++;
 	}
@@ -70,7 +67,7 @@ void	send_char(int pid, int *num)
 	}
 }
 
-int main(int argc, char **argv)
+int	main(int argc, char **argv)
 {
 	int	pid;
 	int	i;
