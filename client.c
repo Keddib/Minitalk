@@ -6,21 +6,17 @@
 /*   By: keddib <keddib@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/22 19:48:12 by keddib            #+#    #+#             */
-/*   Updated: 2021/06/22 20:51:43 by keddib           ###   ########.fr       */
+/*   Updated: 2021/06/23 17:51:04 by keddib           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <sys/types.h>
-#include <unistd.h>
-#include <stdio.h>
-#include <signal.h>
-#include <stdlib.h>
+#include "Minitalk.h"
 
-int *char_to_bin(char c)
+int	*char_to_bin(char c)
 {
-	int i;
-	int j;
-	int *num;
+	int	i;
+	int	j;
+	int	*num;
 
 	i = 7;
 	j = 0;
@@ -39,46 +35,46 @@ int *char_to_bin(char c)
 	return (num);
 }
 
-int check_errors(int argc, char **argv)
+int	check_errors(int argc, char **argv)
 {
 	int	pid;
 	int	er;
 
+	er = 0;
 	if (argc != 3 || !argv[2][0])
-	{
-		printf("arguments error\n");
-		exit(1);
-	}
-	pid = atoi(argv[1]);
+		ft_exit(1);
+	else if (!ft_isdigit(argv[1]))
+		ft_exit(2);
+	pid = ft_atoi(argv[1]);
 	if (pid <= 0)
-	{
-		printf("invalid pid\n");
-		exit(1);
-	}
+		ft_exit(2);
 	return (pid);
 }
 
 void	send_char(int pid, int *num)
 {
-	int i;
+	int	i;
+	int	ret;
 
 	i = 7;
 	while (i >= 0)
 	{
 		if (num[i] == 0)
-			kill(pid, SIGUSR1);
+			ret = kill(pid, SIGUSR1);
 		else
-			kill(pid, SIGUSR2);
+			ret = kill(pid, SIGUSR2);
+		if (ret == -1)
+			ft_exit(2);
+		usleep(1200);
 		i--;
 	}
-
 }
 
 int main(int argc, char **argv)
 {
-	int pid;
-	int i;
-	int *num;
+	int	pid;
+	int	i;
+	int	*num;
 
 	pid = check_errors(argc, argv);
 	i = 0;
@@ -89,5 +85,8 @@ int main(int argc, char **argv)
 		free(num);
 		i++;
 	}
+	num = char_to_bin('\0');
+	send_char(pid, num);
+	free(num);
 	return (0);
 }

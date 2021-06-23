@@ -1,4 +1,3 @@
-didi
-*.pub
-*.js
-khalid
+*.out
+server
+client
