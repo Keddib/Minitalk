@@ -6,7 +6,7 @@
 /*   By: keddib <keddib@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/22 19:48:12 by keddib            #+#    #+#             */
-/*   Updated: 2021/06/24 15:24:57 by keddib           ###   ########.fr       */
+/*   Updated: 2021/06/24 15:29:43 by keddib           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ void	send_char(int pid, int *num)
 			ret = kill(pid, SIGUSR2);
 		if (ret == -1)
 			ft_exit(2);
-		usleep(60);
+		usleep(150);
 		i--;
 	}
 }
