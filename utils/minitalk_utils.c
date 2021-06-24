@@ -6,11 +6,11 @@
 /*   By: keddib <keddib@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/23 17:16:11 by keddib            #+#    #+#             */
-/*   Updated: 2021/06/23 18:20:22 by keddib           ###   ########.fr       */
+/*   Updated: 2021/06/24 15:23:35 by keddib           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "Minitalk.h"
+#include "../minitalk.h"
 
 void	ft_exit(int x)
 {

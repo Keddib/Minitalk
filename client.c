@@ -6,11 +6,11 @@
 /*   By: keddib <keddib@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/22 19:48:12 by keddib            #+#    #+#             */
-/*   Updated: 2021/06/23 18:41:39 by keddib           ###   ########.fr       */
+/*   Updated: 2021/06/24 15:24:57 by keddib           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "Minitalk.h"
+#include "minitalk.h"
 
 int	*char_to_bin(char c)
 {
@@ -62,7 +62,7 @@ void	send_char(int pid, int *num)
 			ret = kill(pid, SIGUSR2);
 		if (ret == -1)
 			ft_exit(2);
-		usleep(1200);
+		usleep(60);
 		i--;
 	}
 }
@@ -82,8 +82,5 @@ int	main(int argc, char **argv)
 		free(num);
 		i++;
 	}
-	num = char_to_bin('\0');
-	send_char(pid, num);
-	free(num);
 	return (0);
 }

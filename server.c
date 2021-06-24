@@ -6,15 +6,14 @@
 /*   By: keddib <keddib@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/23 17:16:35 by keddib            #+#    #+#             */
-/*   Updated: 2021/06/23 18:35:53 by keddib           ###   ########.fr       */
+/*   Updated: 2021/06/24 15:23:35 by keddib           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "Minitalk.h"
+#include "minitalk.h"
+#include <string.h>
 
-int	g_num[9];
-
-char	bin_to_char(int *num)
+char	bin_to_char(volatile sig_atomic_t *num)
 {
 	int		i;
 	char	c;
@@ -30,45 +29,65 @@ char	bin_to_char(int *num)
 	return (c);
 }
 
-void	siguser1(int sig)
+void	check_pid(pid_t pid)
 {
-	sig = 0;
-	g_num[g_num[8]] = 0;
-	g_num[8]++;
+	if (g_num[9])
+	{
+		if (g_num[9] != pid)
+		{
+			g_num[8] = 0;
+			g_num[9] = pid;
+		}
+		return ;
+	}
+	g_num[9] = pid;
 }
 
-void	siguser2(int sig)
+void	siguser(int sig, siginfo_t *si, void *data)
 {
-	sig = 0;
-	g_num[g_num[8]] = 1;
-	g_num[8]++;
+	(void)data;
+	check_pid(si->si_pid);
+	if (sig == SIGUSR1)
+	{
+		g_num[g_num[8]] = 0;
+		g_num[8]++;
+	}
+	else if (sig == SIGUSR2)
+	{
+		g_num[g_num[8]] = 1;
+		g_num[8]++;
+	}
+}
+
+void	assing_ver(char **argv, struct sigaction *sa)
+{
+	ft_putchar('\n');
+	argv[0] = NULL;
+	g_num[8] = 0;
+	g_num[9] = 0;
+	memset(sa, 0, sizeof(*sa));
+	sa->sa_flags = SA_SIGINFO;
+	sa->sa_sigaction = siguser;
 }
 
 int	main(int argc, char **argv)
 {
-	int		pid;
-	char	c;
+	struct sigaction	sa;
 
 	if (argc != 1)
 		ft_exit(1);
-	argv[0] = NULL;
-	g_num[8] = 0;
-	pid = getpid();
-	ft_putnbr(pid);
-	ft_putchar('\n');
+	ft_putnbr(getpid());
+	assing_ver(argv, &sa);
 	while (1)
 	{
-		signal(SIGUSR1, siguser1);
-		signal(SIGUSR2, siguser2);
+		sigaction(SIGUSR1, &sa, 0);
+		sigaction(SIGUSR2, &sa, 0);
 		if (g_num[8] > 7)
 		{
-			c = bin_to_char(g_num);
-			if (!c)
-				ft_putchar('\n');
-			else
-				ft_putchar(c);
+			ft_putchar(bin_to_char(g_num));
 			g_num[8] = 0;
 		}
+		pause();
 	}
 	return (0);
 }
